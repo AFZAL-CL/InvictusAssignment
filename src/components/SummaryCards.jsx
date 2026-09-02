@@ -61,6 +61,10 @@ export default function SummaryCards({ members, expenses, onAddMember }) {
             setError("Name cannot contain numbers.");
             return;
           }
+          if (members.some((m) => m.name.toLowerCase() === trimmed.toLowerCase())) {
+            setError("A member with this name already exists.");
+            return;
+          }
           setError("");
           onAddMember(trimmed);
           setName("");

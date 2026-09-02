@@ -164,3 +164,13 @@ Keep this file in the repo and **commit it** with your fixes.
 
 ---
 
+## Bug 17
+
+**How to reproduce:** Go to the Summary panel and type in the name of a member who already exists (e.g., "Aisha Khan") and click "Add".
+
+**What is wrong:** The app allows you to add a member with the exact same name as someone who is already in the group. While they receive different internal IDs and the math still functions, this is incredibly confusing for the UI since there's no way to visually tell the two users apart when selecting who paid.
+
+**What I changed:** I added a validation check to the form submit handler in `src/components/SummaryCards.jsx`. It now checks `members.some((m) => m.name.toLowerCase() === trimmed.toLowerCase())`. If a duplicate is found (case-insensitive), it halts the submission and shows the error: "A member with this name already exists."
+
+---
+
