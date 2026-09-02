@@ -216,6 +216,12 @@ select:focus {
   border-bottom: 0;
 }
 
+.expense > div:nth-child(2) {
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
 .expense-title {
   font-weight: 700;
 }
@@ -301,6 +307,8 @@ select:focus {
   display: block;
   font-size: 20px;
   margin-top: 4px;
+  overflow-wrap: anywhere;
+  word-break: break-all;
 }
 
 .person-stat {

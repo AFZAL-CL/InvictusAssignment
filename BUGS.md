@@ -124,9 +124,43 @@ Keep this file in the repo and **commit it** with your fixes.
 
 ---
 
+## Bug 13
 
+**How to reproduce:** Go to the Summary panel and try to add a new member whose name starts with a symbol (like "@John") or contains numbers (like "John123").
 
+**What is wrong:** The input accepts these values without throwing any warning or error, meaning a user can accidentally create invalid or typo-filled member names.
 
+**What I changed:** I added an `error` state in `src/components/SummaryCards.jsx`. When the form is submitted, it validates that the name starts with a letter (`/^[a-zA-Z]/`) and does not contain any numbers (`/[0-9]/`). If validation fails, it displays a descriptive error message underneath the input.
 
+---
 
+## Bug 14
+
+**How to reproduce:** In the "Add expense" form, clear the Date field (using the 'X' icon or backspacing) and submit the form. 
+
+**What is wrong:** The form lacks validation for the Date field. It successfully creates the expense but initializes it with an "Invalid Date" object. This breaks the sorting algorithm (putting the expense in an unpredictable spot) and displays "Invalid Date" directly in the UI list.
+
+**What I changed:** I added a validation check `if (!date)` to the `submit` function in `src/components/AddExpenseForm.jsx` to ensure a valid date string must be present before the form is allowed to save, throwing an error otherwise.
+
+---
+
+## Bug 15
+
+**How to reproduce:** Create an expense with an astronomically large amount (e.g., "$99,999,999").
+
+**What is wrong:** The "Group total" and "Avg / person" numbers physically overflow outside of their containing boxes in the Summary panel, breaking the layout. 
+
+**What I changed:** I updated `src/index.css` by adding `overflow-wrap: anywhere;` and `word-break: break-all;` to the `.stat b` class. This perfectly forces massive text strings to wrap to the next line rather than bleeding out of the component.
+
+---
+
+## Bug 16
+
+**How to reproduce:** Add a new expense and type a massively long string of characters without spaces into the description (e.g. "SuperLongDescriptionWithNoSpacesAtAllThatIsWayTooLong"). 
+
+**What is wrong:** In the main Expense List, the grid column containing the description expands infinitely to fit the unbroken word. This blows out the UI grid horizontally and pushes the amount and delete button completely off-screen.
+
+**What I changed:** I targeted the middle column of `.expense` in `src/index.css` (`.expense > div:nth-child(2)`) and added `min-width: 0;` alongside `word-break: break-word;`. Setting `min-width: 0` stops the CSS grid container from expanding past its track width, forcing the text to correctly wrap to the next line.
+
+---
 

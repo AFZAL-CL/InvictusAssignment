@@ -4,6 +4,7 @@ import { totalSpent } from "../lib/balances.js";
 
 export default function SummaryCards({ members, expenses, onAddMember }) {
   const [name, setName] = useState("");
+  const [error, setError] = useState("");
 
   const perPerson = useMemo(() => {
     return members.map((m) => {
@@ -52,6 +53,15 @@ export default function SummaryCards({ members, expenses, onAddMember }) {
           e.preventDefault();
           const trimmed = name.trim();
           if (!trimmed) return;
+          if (!/^[a-zA-Z]/.test(trimmed)) {
+            setError("Name must start with a letter.");
+            return;
+          }
+          if (/[0-9]/.test(trimmed)) {
+            setError("Name cannot contain numbers.");
+            return;
+          }
+          setError("");
           onAddMember(trimmed);
           setName("");
         }}
@@ -62,7 +72,10 @@ export default function SummaryCards({ members, expenses, onAddMember }) {
             <input
               id="newMember"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => {
+                setName(e.target.value);
+                if (error) setError("");
+              }}
               placeholder="Name"
             />
           </div>
@@ -70,6 +83,7 @@ export default function SummaryCards({ members, expenses, onAddMember }) {
             Add
           </button>
         </div>
+        {error && <p className="error" style={{ marginTop: 8 }}>{error}</p>}
       </form>
     </section>
   );

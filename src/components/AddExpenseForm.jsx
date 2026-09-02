@@ -45,6 +45,10 @@ export default function AddExpenseForm({ members, onAdd }) {
       setError("Add a description and a positive amount.");
       return;
     }
+    if (!date) {
+      setError("Please select a valid date.");
+      return;
+    }
     if (!splitWith.length) {
       setError("Pick at least one person to split with.");
       return;
