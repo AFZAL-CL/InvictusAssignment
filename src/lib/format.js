@@ -13,5 +13,5 @@ export function formatDate(date) {
 }
 
 export function dateValue(date) {
-  return date;
+  return new Date(date).getTime();
 }
