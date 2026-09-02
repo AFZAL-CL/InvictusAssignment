@@ -114,6 +114,17 @@ Keep this file in the repo and **commit it** with your fixes.
 
 ---
 
+## Bug 12
+
+**How to reproduce:** In the "Add expense" form, select "Custom %". Try to type a percentage with a decimal point (like "33.33"). Notice that as soon as you type the decimal point ("33."), the decimal point immediately vanishes, making it practically impossible to type decimal percentages!
+
+**What is wrong:** The React `<input>` handler for the custom percentages was casting `e.target.value` immediately into a `Number(...)` before saving it to state. When you type `"33."`, `Number("33.")` instantly resolves back to `33`, meaning the decimal point is completely stripped before you can even type the next digit.
+
+**What I changed:** I updated the `onChange` handler in `src/components/AddExpenseForm.jsx` to store the raw string (`e.target.value`) in state instead of aggressively parsing it to a `Number`. The math helper functions already cleanly convert these strings to numbers behind the scenes, so now the user can type decimal points smoothly.
+
+---
+
+
 
 
 

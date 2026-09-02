@@ -182,7 +182,7 @@ export default function AddExpenseForm({ members, onAdd }) {
                   step="0.01"
                   value={percents[m.id] ?? ""}
                   onChange={(e) =>
-                    setPercents((p) => ({ ...p, [m.id]: Number(e.target.value) }))
+                    setPercents((p) => ({ ...p, [m.id]: e.target.value }))
                   }
                 />
               </div>
