@@ -104,6 +104,17 @@ Keep this file in the repo and **commit it** with your fixes.
 
 ---
 
+## Bug 11
+
+**How to reproduce:** Fill out the "Add expense" form (e.g., Description: "Lunch", Amount: "45") and click "Save expense". Notice that the expense appears in the list, but the form remains fully populated with "Lunch" and "45". 
+
+**What is wrong:** The form state does not reset upon successful submission. This is a classic UX bug that makes it extremely easy for a user to accidentally double-click "Save expense" and create duplicate entries because the form gives no visual reset feedback.
+
+**What I changed:** I added `setDescription("")` and `setAmount("")` to the end of the `submit` function in `src/components/AddExpenseForm.jsx` so that the form properly clears itself for the next entry.
+
+---
+
+
 
 
 
